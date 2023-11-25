@@ -10,6 +10,30 @@ https://www.kaggle.com/code/ddlc19/detectai-transformers-baseline/edit
 
 Transformersの理解不足を感じたので、とりあえずBERTによる自然言語処理入門の4~7章を読む。
 
+Transformersの仕様がよく分かってない
+```
+compute_metrics関数内で使用されているlabelsは、通常はTrainerによる評価の際に、提供されたデータセット（ここではeval_dataset）に含まれる各サンプルの真のラベルです。評価時にモデルがデータセット内のサンプルを予測し、その予測結果と真のラベルを比較するためにlabelsが必要となります。
+
+具体的には、Trainerが評価を行う際、eval_datasetに含まれる各サンプルがモデルによって予測され、その予測結果がcompute_metrics関数の引数として渡されます。その際、eval_predには (logits, labels) のタプルが渡されます。ここで、logitsはモデルの出力であり、labelsは真のラベルです。
+
+python
+Copy code
+def compute_metrics(eval_pred):
+    logits, labels = eval_pred
+    # 以下略
+したがって、ユーザーがTrainerを使ってモデルを評価するときには、eval_datasetに含まれる各サンプルには元々真のラベルが含まれている必要があります。通常、データセットの各サンプルには"label"というキーでアクセスでき、その値が真のラベルです。例えば、データセット内の各サンプルが以下のような形式を持っていると仮定します：
+
+python
+Copy code
+{'input_ids': ..., 'attention_mask': ..., 'label': 1}
+この場合、compute_metrics関数では labels は各サンプルの 'label' キーにアクセスすることで得られます。
+```
+
+この説明だと、キーを'label'に設定しておけば、その列が真のラベルに対応していることになるということでよい?
+
+
+
+
 
 参考
 過去のLLMコンペの解法まとめ
