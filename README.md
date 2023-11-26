@@ -36,6 +36,8 @@ https://qiita.com/nipo/items/44ce3aaf6acd4e2649d1
 
 この記事だけだと疑問は解決できないけど、実装する際に参考になる。
 
+取り組み方はこの記事を参考にする
+https://note.com/currypurin/n/n6a3c2bfd27c0#9LXvD
 
 
 
